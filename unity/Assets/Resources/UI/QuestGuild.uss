@@ -1,0 +1,215 @@
+.root {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(18, 22, 42);
+    padding: 24px 32px;
+}
+
+.title {
+    font-size: 28px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: rgb(210, 220, 240);
+    margin-bottom: 18px;
+}
+
+.content {
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: stretch;
+    min-height: 0;
+    display: flex;
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.06);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.house-panel {
+    flex-grow: 1;
+    flex-basis: 56%;
+    margin-right: 16px;
+    min-width: 0;
+}
+
+.command-panel {
+    flex-grow: 1;
+    flex-basis: 44%;
+    min-width: 300px;
+}
+
+.panel-title {
+    font-size: 18px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    margin-bottom: 8px;
+}
+
+.body {
+    font-size: 15px;
+    color: rgb(210, 220, 240);
+    white-space: normal;
+    margin-bottom: 10px;
+}
+
+.order-input {
+    min-height: 140px;
+    margin-bottom: 12px;
+    background-color: rgb(32, 38, 58);
+    border-width: 2px;
+    border-color: rgb(90, 140, 220);
+    border-radius: 6px;
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    padding: 10px;
+}
+
+.order-input .unity-text-field__input {
+    background-color: transparent;
+    border-width: 0;
+    color: rgb(255, 255, 255);
+    min-height: 120px;
+    -unity-text-align: upper-left;
+    white-space: normal;
+}
+
+.submit-button {
+    height: 42px;
+    margin-bottom: 12px;
+    background-color: rgb(70, 120, 210);
+    border-radius: 6px;
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    -unity-font-style: bold;
+}
+
+.submit-button:hover {
+    background-color: rgb(90, 145, 230);
+}
+
+.timer {
+    font-size: 22px;
+    -unity-font-style: bold;
+    color: rgb(120, 220, 255);
+    margin-bottom: 8px;
+}
+
+.jobs-list {
+    flex-direction: column;
+}
+
+.job-row {
+    font-size: 15px;
+    color: rgb(230, 235, 245);
+    white-space: normal;
+    margin-bottom: 6px;
+    padding: 6px 8px;
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 4px;
+}
+
+.house-title {
+    font-size: 16px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    margin-bottom: 12px;
+}
+
+.house-map {
+    flex-grow: 1;
+    min-height: 360px;
+    position: relative;
+}
+
+.room {
+    position: absolute;
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    padding: 8px;
+    color: rgb(30, 30, 40);
+    -unity-font-style: bold;
+}
+
+.room-kitchen {
+    left: 4%;
+    top: 8%;
+    width: 42%;
+    height: 36%;
+    background-color: rgb(250, 210, 118);
+}
+
+.room-laundry {
+    left: 52%;
+    top: 8%;
+    width: 42%;
+    height: 36%;
+    background-color: rgb(122, 198, 236);
+}
+
+.room-entry {
+    left: 4%;
+    top: 52%;
+    width: 90%;
+    height: 36%;
+    background-color: rgb(155, 220, 158);
+}
+
+.house-idle {
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    top: 42%;
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    -unity-text-align: middle-center;
+    white-space: normal;
+}
+
+.robot-marker {
+    position: absolute;
+    width: 72px;
+    height: 48px;
+    background-color: rgba(20, 24, 40, 0.88);
+    border-width: 1px;
+    border-color: rgb(120, 180, 255);
+    border-radius: 6px;
+    color: rgb(255, 255, 255);
+    font-size: 12px;
+    -unity-text-align: middle-center;
+    white-space: normal;
+    padding: 4px;
+}
+
+.clear-banner {
+    margin-top: 12px;
+    padding: 14px;
+    background-color: rgba(80, 200, 120, 0.25);
+    border-width: 1px;
+    border-color: rgb(100, 220, 140);
+    border-radius: 6px;
+    color: rgb(200, 255, 220);
+    font-size: 16px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    white-space: normal;
+    display: none;
+}
+
+.clear-banner--visible {
+    display: flex;
+}
