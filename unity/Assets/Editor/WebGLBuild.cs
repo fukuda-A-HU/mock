@@ -14,7 +14,7 @@ public static class WebGLBuild
         PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
         var options = new BuildPlayerOptions
         {
-            scenes = new[] { "Assets/Scenes/MainScene.unity" },
+            scenes = new[] { "Assets/Scenes/Main.unity" },
             locationPathName = output,
             target = BuildTarget.WebGL,
             options = BuildOptions.None
