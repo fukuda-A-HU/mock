@@ -48,6 +48,12 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      # upload-pages-artifact invokes `gtar`, which is not provided by macOS.
+      - name: Install GNU tar for Pages artifact
+        run: |
+          brew install gnu-tar
+          echo "$(brew --prefix gnu-tar)/bin" >> "$GITHUB_PATH"
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
