@@ -73,10 +73,6 @@ public sealed class QuestGuildGame : MonoBehaviour
         root.style.width = Length.Percent(100);
         root.style.height = Length.Percent(100);
 
-        var styleSheet = Resources.Load<StyleSheet>("UI/QuestGuild");
-        if (styleSheet != null && !root.styleSheets.Contains(styleSheet))
-            root.styleSheets.Add(styleSheet);
-
         orderInput = root.Q<TextField>("order-input");
         submitButton = root.Q<Button>("submit-button");
         hintLabel = root.Q<Label>("hint-label");

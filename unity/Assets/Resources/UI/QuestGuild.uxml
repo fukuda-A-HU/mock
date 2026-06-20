@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="QuestGuildStyles.uss" />
     <ui:VisualElement name="root" class="root">
         <ui:Label name="title" text="ことばのクエストギルド" class="title" />
         <ui:Label name="subtitle" text="朝の司令官 — 日常の言葉で、3体のAIを同時に動かそう" class="subtitle" />
