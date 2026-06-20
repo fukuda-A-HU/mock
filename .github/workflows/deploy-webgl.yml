@@ -1,0 +1,66 @@
+name: Build and deploy WebGL
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'unity/**'
+      - '.github/workflows/deploy-webgl.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build WebGL
+    # The self-hosted runner already has an activated Unity installation.
+    runs-on: [self-hosted, macOS, ARM64]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Restore Unity Library cache
+        uses: actions/cache@v4
+        with:
+          path: unity/Library
+          key: Library-WebGL-${{ hashFiles('unity/Packages/packages-lock.json', 'unity/ProjectSettings/ProjectVersion.txt') }}
+          restore-keys: |
+            Library-WebGL-
+
+      - name: Build WebGL player
+        run: |
+          /Applications/Unity/Hub/Editor/6000.4.5f1/Unity.app/Contents/MacOS/Unity \
+            -batchmode \
+            -nographics \
+            -quit \
+            -projectPath "$GITHUB_WORKSPACE/unity" \
+            -buildTarget WebGL \
+            -executeMethod WebGLBuild.Build \
+            -logFile -
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: unity/Build/WebGL
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Pages artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
