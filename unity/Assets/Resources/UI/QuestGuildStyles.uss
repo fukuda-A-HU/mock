@@ -6,6 +6,7 @@
     flex-direction: column;
     background-color: rgb(8, 8, 8);
     padding: 24px 32px;
+    -unity-font-definition: resource("UI/Fonts/NotoSansJP-Regular");
 }
 
 .title {

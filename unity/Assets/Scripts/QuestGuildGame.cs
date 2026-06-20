@@ -66,12 +66,22 @@ public sealed class QuestGuildGame : MonoBehaviour
         return panelSettings;
     }
 
+    private static void ApplyJapaneseFont(VisualElement root)
+    {
+        var font = Resources.Load<Font>("UI/Fonts/NotoSansJP-Regular");
+        if (font == null)
+            return;
+
+        root.style.unityFontDefinition = FontDefinition.FromFont(font);
+    }
+
     private void OnEnable()
     {
         var root = uiDocument.rootVisualElement;
         root.style.flexGrow = 1;
         root.style.width = Length.Percent(100);
         root.style.height = Length.Percent(100);
+        ApplyJapaneseFont(root);
 
         orderInput = root.Q<TextField>("order-input");
         submitButton = root.Q<Button>("submit-button");
