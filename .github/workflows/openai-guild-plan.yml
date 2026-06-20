@@ -1,0 +1,41 @@
+name: Generate Guild Plan
+
+on:
+  workflow_dispatch:
+    inputs:
+      request:
+        description: "司令官からの朝の依頼（自然文）"
+        required: true
+        default: "あと3分。ゴミを玄関へ、朝食を用意し、洗濯物をたたみ、雨なので傘をバッグに入れて。"
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    # The key is an Actions secret and is never included in the Unity build or logs.
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      COMMANDER_REQUEST: ${{ inputs.request }}
+    steps:
+      - name: Check secret is configured
+        run: test -n "$OPENAI_API_KEY"
+
+      - name: Ask the guild planner
+        id: planner
+        shell: bash
+        run: |
+          set -euo pipefail
+          response=$(curl --fail --silent --show-error https://api.openai.com/v1/responses \
+            -H "Authorization: Bearer $OPENAI_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n --arg request "$COMMANDER_REQUEST" '{model:"gpt-4.1-mini", input:[{role:"system",content:[{type:"input_text",text:"You are the planner for a home robot guild. Split the commander request into exactly three robot tasks. Respect time and destination constraints."}]},{role:"user",content:[{type:"input_text",text:$request}]}], text:{format:{type:"json_schema",name:"guild_plan",strict:true,schema:{type:"object",additionalProperties:false,properties:{tasks:{type:"array",minItems:3,maxItems:3,items:{type:"object",additionalProperties:false,properties:{robot:{type:"string",enum:["Hokorisu","Mogumogu","Hakobun"]},task:{type:"string"},priority:{type:"integer"},done_when:{type:"string"}},required:["robot","task","priority","done_when"]}}},required:["tasks"]}}}}')")
+          echo "$response" | jq -r '.output[]?.content[]? | select(.type == "output_text") | .text' > guild-plan.json
+          jq -e '.tasks | length == 3' guild-plan.json > /dev/null
+
+      - name: Upload generated plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: guild-plan
+          path: guild-plan.json

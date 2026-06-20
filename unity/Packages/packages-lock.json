@@ -1,15 +1,5 @@
 {
   "dependencies": {
-    "io.github.hatayama.uloopmcp": {
-      "version": "https://github.com/hatayama/unity-cli-loop.git?path=/Packages/src#f2a059b45d7a992a7e00247590c022776c86fadf",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0",
-        "com.unity.nuget.newtonsoft-json": "3.2.1"
-      },
-      "hash": "f2a059b45d7a992a7e00247590c022776c86fadf"
-    },
     "com.unity.multiplayer.center": {
       "version": "1.0.1",
       "depth": 0,
@@ -17,6 +7,32 @@
       "dependencies": {
         "com.unity.modules.uielements": "1.0.0"
       }
+    },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.2",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.ugui": {
+      "version": "2.0.0",
+      "depth": 1,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.ui": "1.0.0",
+        "com.unity.modules.imgui": "1.0.0"
+      }
+    },
+    "io.github.hatayama.uloopmcp": {
+      "version": "https://github.com/hatayama/unity-cli-loop.git?path=/Packages/src",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.nuget.newtonsoft-json": "3.2.1"
+      },
+      "hash": "f2a059b45d7a992a7e00247590c022776c86fadf"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
