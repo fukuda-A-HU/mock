@@ -17,6 +17,8 @@
                 <ui:Label text="司令官の依頼" class="panel-title" />
                 <ui:Label text="何を、どこまで、いつまでにしてほしいかを自分の言葉で伝えてください。" class="body" />
                 <ui:TextField name="order-input" multiline="true" class="order-input" />
+                <ui:Button name="voice-button" text="🎤 音声で指示" class="voice-button" />
+                <ui:Label name="voice-status" text="" class="voice-status" />
                 <ui:Button name="submit-button" text="ギルドに依頼する" class="submit-button" />
                 <ui:Label name="hint-label" text="依頼を送ると、ギルドAIがタスクを分解して3体を同時に出撃させます。" class="body" />
                 <ui:Label name="timer-label" text="" class="timer" />

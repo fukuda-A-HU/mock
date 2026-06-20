@@ -25,7 +25,10 @@ public sealed class QuestGuildGame : MonoBehaviour
     private readonly List<Label> robotMarkers = new List<Label>();
 
     private UIDocument uiDocument;
+    private VoiceRecognitionBridge voiceBridge;
     private TextField orderInput;
+    private Button voiceButton;
+    private Label voiceStatus;
     private Button submitButton;
     private Label hintLabel;
     private Label timerLabel;
@@ -50,6 +53,10 @@ public sealed class QuestGuildGame : MonoBehaviour
             uiAsset = Resources.Load<VisualTreeAsset>("UI/QuestGuild");
 
         uiDocument.visualTreeAsset = uiAsset;
+
+        voiceBridge = GetComponent<VoiceRecognitionBridge>();
+        if (voiceBridge == null)
+            voiceBridge = gameObject.AddComponent<VoiceRecognitionBridge>();
     }
 
     private static PanelSettings CreateFallbackPanelSettings()
@@ -84,6 +91,8 @@ public sealed class QuestGuildGame : MonoBehaviour
         ApplyJapaneseFont(root);
 
         orderInput = root.Q<TextField>("order-input");
+        voiceButton = root.Q<Button>("voice-button");
+        voiceStatus = root.Q<Label>("voice-status");
         submitButton = root.Q<Button>("submit-button");
         hintLabel = root.Q<Label>("hint-label");
         timerLabel = root.Q<Label>("timer-label");
@@ -96,14 +105,84 @@ public sealed class QuestGuildGame : MonoBehaviour
         orderInput.value = order;
         orderInput.RegisterValueChangedCallback(evt => order = evt.newValue);
         submitButton.clicked += BuildPlan;
+        voiceButton.clicked += OnVoiceButtonClicked;
+        ConfigureVoiceUi();
         houseMap.RegisterCallback<GeometryChangedEvent>(_ => UpdateRobotMarkers());
         RefreshUi();
+    }
+
+    private void ConfigureVoiceUi()
+    {
+        if (voiceBridge.IsSupported)
+        {
+            voiceButton.style.display = DisplayStyle.Flex;
+            voiceStatus.style.display = DisplayStyle.Flex;
+            return;
+        }
+
+        voiceButton.style.display = DisplayStyle.None;
+        voiceStatus.style.display = DisplayStyle.None;
+    }
+
+    private void OnVoiceButtonClicked()
+    {
+        if (!voiceBridge.IsSupported)
+            return;
+
+        if (voiceBridge.IsListening)
+        {
+            voiceBridge.StopListening();
+            ResetVoiceUi();
+            return;
+        }
+
+        voiceButton.text = "聞いています…";
+        voiceButton.AddToClassList("voice-button--listening");
+        voiceStatus.text = "マイクに向かって依頼を話してください。";
+        voiceBridge.StartListening(OnVoiceFinalResult, OnVoiceInterimResult, OnVoiceError, ResetVoiceUi);
+    }
+
+    private void OnVoiceFinalResult(string transcript)
+    {
+        if (string.IsNullOrWhiteSpace(transcript))
+            return;
+
+        order = transcript.Trim();
+        orderInput.SetValueWithoutNotify(order);
+        voiceStatus.text = $"認識: {order}";
+        BuildPlan();
+    }
+
+    private void OnVoiceInterimResult(string transcript)
+    {
+        voiceStatus.text = string.IsNullOrWhiteSpace(transcript)
+            ? "聞いています…"
+            : $"認識中: {transcript}";
+    }
+
+    private void OnVoiceError(string error)
+    {
+        voiceStatus.text = error switch
+        {
+            "not-allowed" => "マイクの使用が許可されていません。ブラウザ設定を確認してください。",
+            "no-speech" => "音声が聞き取れませんでした。もう一度お試しください。",
+            "not-supported" => "このブラウザは音声認識に対応していません。Chrome または Edge をお使いください。",
+            _ => $"音声認識エラー: {error}"
+        };
+    }
+
+    private void ResetVoiceUi()
+    {
+        voiceButton.text = "🎤 音声で指示";
+        voiceButton.RemoveFromClassList("voice-button--listening");
     }
 
     private void OnDisable()
     {
         if (submitButton != null)
             submitButton.clicked -= BuildPlan;
+        if (voiceButton != null)
+            voiceButton.clicked -= OnVoiceButtonClicked;
     }
 
     private void Update()
