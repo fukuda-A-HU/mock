@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="QuestGuildStyles.uss" />
+    <ui:VisualElement name="root" class="root">
+        <ui:Label name="title" text="ことばのクエストギルド" class="title" />
+        <ui:Label name="subtitle" text="朝の司令官 — 日常の言葉で、3体のAIを同時に動かそう" class="subtitle" />
+        <ui:VisualElement name="content" class="content">
+            <ui:VisualElement name="house-panel" class="panel house-panel">
+                <ui:Label text="家の見取り図 — 同時出撃中" class="house-title" />
+                <ui:VisualElement name="house-map" class="house-map">
+                    <ui:Label text="キッチン" class="room room-kitchen" />
+                    <ui:Label text="ランドリー" class="room room-laundry" />
+                    <ui:Label text="玄関 / バッグ" class="room room-entry" />
+                    <ui:Label name="house-idle" text="ロボットたちが司令を待っています。" class="house-idle" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="command-panel" class="panel command-panel">
+                <ui:Label text="司令官の依頼" class="panel-title" />
+                <ui:Label text="何を、どこまで、いつまでにしてほしいかを自分の言葉で伝えてください。" class="body" />
+                <ui:TextField name="order-input" multiline="true" class="order-input" />
+                <ui:Button name="submit-button" text="ギルドに依頼する" class="submit-button" />
+                <ui:Label name="hint-label" text="依頼を送ると、ギルドAIがタスクを分解して3体を同時に出撃させます。" class="body" />
+                <ui:Label name="timer-label" text="" class="timer" />
+                <ui:Label name="log-label" text="" class="body" />
+                <ui:VisualElement name="jobs-list" class="jobs-list" />
+                <ui:Label name="clear-banner" text="QUEST CLEAR&#10;朝のタスクを3体で並列完了！" class="clear-banner" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
